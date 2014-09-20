@@ -1,4 +1,6 @@
-KanyesGameOfLife
+HackGT Stuff
 ================
 
-The Game of Life, as portrayed by Kanye West
+using hashtag model specific area of US
+
+geolocated sentiment analysis
