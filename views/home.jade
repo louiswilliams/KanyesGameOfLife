@@ -6,14 +6,14 @@ block content
   #mapwrap.content
     #map
 
-    svg(id="canvas", height="100%", width="100%" z-index="1")
-      defs
-        radialGradient(id="dotgradient")
-          stop(offset="30%", stop-color="white", stop-opacity="1")
-          stop(offset="100%", stop-color="white" stop-opacity="0")
-        
-        mask(id="dotmask")
-          circle(cx="0",cy="0",r="10", fill="url(#dotgradient)")
+      svg(id="canvas", height="100%", width="100%" z-index="1")
+        defs
+          radialGradient(id="dotgradient")
+            stop(offset="30%", stop-color="white", stop-opacity="1")
+            stop(offset="100%", stop-color="white" stop-opacity="0")
+          
+          mask(id="dotmask")
+            circle(cx="0",cy="0",r="10", fill="url(#dotgradient)")
   
   #description
     .content
