@@ -1,4 +1,4 @@
-//var socket = io();
+var socket = io();
 
 function mapCoordToPixel(latitude, longitude) {
     origin = {
@@ -20,8 +20,20 @@ function verticalCenter($div) {
 	$div.css('top', (Math.max(60,height)) / 2);
 }
 
+
+function startStream(query, callback) {
+	$.get('/ajax/stream/' + query).done(function(data) {
+		socket.emit('message', "test!" );
+		console.log(data);
+	});
+	callback();
+}
+
 $(document).ready(function() {
-	
+	startStream('beyonce', function() {
+
+	});
+
 	$map = $("#map");
 	$map.load(function() {
 		verticalCenter(this);

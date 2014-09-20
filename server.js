@@ -10,6 +10,17 @@ var logger = require('morgan');
 var csrf = require('lusca').csrf();
 var methodOverride = require('method-override');
 
+// SocketIO
+var http = require('http').Server(app);
+var io = require('socket.io')(http);
+io.on('connection', function(socket) {
+    console.log("connection...");
+    socket.on('message', function(msg) {
+        console.log("Message: " + message);
+    })
+});
+
+
 var _ = require('lodash');
 var MongoStore = require('connect-mongo')({ session: session });
 var flash = require('express-flash');
@@ -23,7 +34,7 @@ var connectAssets = require('connect-assets');
  * Controllers (route handlers).
  */
 var homeController = require('./controllers/home');
-var homeController = require('./controllers/ajaxController');
+var ajaxController = require('./controllers/ajax');
 var userController = require('./controllers/user');
 
 /**
@@ -107,6 +118,10 @@ app.use(function(req, res, next) {
     next();
 });
 app.use(express.static(path.join(__dirname, 'public'), { maxAge: week }));
+app.use(function(req, res, next) {
+    req.io = io;
+    next();
+})
 
 //io.on('connection', function(socket){
 //   console.log("connection!");
@@ -116,7 +131,7 @@ app.use(express.static(path.join(__dirname, 'public'), { maxAge: week }));
  * Main routes.
  */
 app.get('/', homeController.index);
-app.get('/ajax', ajaxController.index);
+app.get('/ajax/stream/:query', ajaxController.stream);
 //app.get('/', passportConf.isAuthenticated, homeController.index);
 //app.get('/login', userController.getLogin);
 //app.post('/login', userController.postLogin);
