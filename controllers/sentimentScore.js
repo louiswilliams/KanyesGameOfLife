@@ -12,3 +12,11 @@ function textToScore(text) {
 }
 
 //console.log(textToScore("Beyonce's got a big ole ass fucking bitch mother fucker hatred"));
+// on client side convert score to rgb using this commented out code
+// var red = 255, green = 255, blue =0;
+// if (score <= 0) {
+//     green += 255 * score;
+// } else if (score > 0) {
+//     red -= 255 * score;
+// }
+// console.log(red + ", " + green + ", " + blue);
