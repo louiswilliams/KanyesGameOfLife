@@ -1,0 +1,13 @@
+DA TWITTARZ
+
+2 Things:
+	List of tweets
+		in the past x days
+		containing a specified hashtag
+		with location data (either embedded in the tweet, or the user's home location)
+		grouped by positive or negative (for now that simple dichotomy is fine)
+
+	Live tweets
+		containing a specified hashtag
+		with location data
+		positive/negative

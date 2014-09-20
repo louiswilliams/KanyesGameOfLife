@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<script src="http://d3js.org/d3.v3.min.js" charset="utf-8"></script>
+	</head>
+
+	<body>
+		<svg id="canvas" x="10" y="10" height="200" width="300">
+			<defs>
+    			<radialGradient id="dotfill" cx="50%" cy="50%" r="50%" fx="50%" fy="50%">
+      				<stop offset="30%" style="stop-color:rgba(255,0,0,1);" />
+     				<stop offset="100%" style="stop-color:rgba(255,255,255,0);" />
+    			</radialGradient>
+  			</defs>
+
+			<rect class="full dot" x="20" y="20" height="10" width="10">
+			</rect>
+
+			<rect class="clear dot" x="40" y="20" height="10" width="10">
+			</rect>
+
+			<rect class="dot" x="60" y="20" height="10" width="10">
+				<!--<animate attributeType="CSS" attributeName="opacity" from="1" to=".1" dur="2s" fill="freeze"/>-->
+
+				<animate attributeType="CSS" attributeName="opacity" from="1" to=".1" dur="2s" repeatCount="indefinite"/>
+			</rect>
+
+			<g class="ping" transform="translate(100,20)">
+				<circle class="glow" r="7" >
+					<animate attributeType="XML" attributeName="r" from="7" to="10" dur="1s" fill="freeze"/>
+
+					<animate attributeType="CSS" attributeName="stroke-opacity" from="1" to="0" dur="1s" fill="freeze"/>
+				</circle>
+
+				<circle r="7" fill="url(#dotfill)">
+
+					<!--<animate attributeType="CSS" attributeName="opacity" from="1" to=".1" dur="2s" repeatCount="indefinite"/>-->
+				</circle>
+			</g>
+		</svg>
+	</body>
+
+	<style>
+		.dot {
+			fill: red;
+		}
+
+		.full {
+			fill-opacity: 1;
+		}
+
+		.clear {
+			fill-opacity: .1;
+		}
+
+		.glow {
+			stroke: red;
+			fill: rgba(0,0,0,0);
+		}
+	</style>
+
+	<script>
+
+	</script>
+</html>
