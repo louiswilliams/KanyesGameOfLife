@@ -1,8 +1,11 @@
 {
-	"name": "map",
-	"main": "server.js",
-	"dependencies": {
-		"express": "~4.0.0",
-		"body-parser": "~1.0.1"
-	}
+  "name": "map",
+  "main": "server.js",
+  "dependencies": {
+    "express": "~4.0.0",
+    "body-parser": "~1.0.1",
+    "jade": "~1.7.0",
+    "morgan": "1.3.1",
+    "socket.io": "~1.1.0"
+  }
 }
