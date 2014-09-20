@@ -1,0 +1,15 @@
+body {
+    margin: 0px;
+    padding: 0px;
+    color: #000;
+    background: #385b74;
+    font-family: sans-serif;
+}
+
+#map {
+    margin-left: auto;
+    margin-right: auto;
+    width: 1280px;
+    height: 720px;
+    display: block;
+}
