@@ -21,7 +21,7 @@ function verticalCenter($div) {
 }
 
 $(document).ready(function() {
-
+	
 	$map = $("#map");
 	$map.load(function() {
 		verticalCenter(this);

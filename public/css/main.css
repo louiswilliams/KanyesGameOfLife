@@ -11,6 +11,7 @@ body {
     font-family: sans-serif;
     width: 100%;
     height: 100%;
+    overflow-x: hidden;
 }
 
 #titlebar {
@@ -18,16 +19,17 @@ body {
     display: inline-block;
     height: 2em;
     font-family: "Trebuchet MS";
-    background-color: rgb(36,36,36);
     background-color: black;
     color: white;
-    text-align: right;
     line-height: 2em;
     font-size: 2em;
-    top: 5px;
     left: 0px;
     padding: 0px 20px 0px 50px;
     z-index: 10;
+    width: 100%;
+    box-sizing: border-box;
+    moz-box-sizing: border-box;
+    webkit-box-sizing: border-box;
 }
 
 #mapwrap {
@@ -35,7 +37,7 @@ body {
     position: relative;
     padding-left: 5px;
     display: block;
-    min-height: 720px;
+    min-height: 780px;
 }
 
 
@@ -50,11 +52,18 @@ body {
     position: absolute;
 }
 
-
-.glow {
-    stroke: red;
-    fill: rgba(0,0,0,0);
+#arrowWrap {
+    position: absolute;
+    height: 50px;
+    width: 50px;
+    bottom: 10px;
+    right: 10px;
 }
+
+#arrows {
+    z-index: 10;
+}
+
 
 #description {
     color: #fff;
