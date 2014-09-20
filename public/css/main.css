@@ -32,6 +32,19 @@ body {
     webkit-box-sizing: border-box;
 }
 
+input {
+    height: 65%;
+    font-size: 1em;
+    line-height: 1em;
+    margin-top: .25em;
+    margin-right: 50px;
+    border: 1px solid blue;
+    font-family: "Trebuchet MS";
+    border-radius: 5px;
+    float: right;
+    display: inline-block;
+}
+
 #mapwrap {
     height: 100%;
     position: relative;
@@ -57,11 +70,11 @@ body {
     height: 50px;
     width: 50px;
     bottom: 10px;
-    right: 10px;
+    right: 20px;
 }
 
 #arrows {
-    z-index: 10;
+    cursor: pointer;
 }
 
 

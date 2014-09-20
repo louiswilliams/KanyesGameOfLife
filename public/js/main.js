@@ -34,6 +34,9 @@ $(document).ready(function() {
 
 	});
 
+	$("#arrows").on("click", function() {
+		$('#description')[0].scrollIntoView(true);
+	})
 	$map = $("#map");
 	$map.load(function() {
 		verticalCenter(this);
@@ -42,6 +45,11 @@ $(document).ready(function() {
 	$(window).resize(function() {
 		verticalCenter($map);
 	});
+
+	$(window).scroll(function() {
+		var bottom = $("#arrowWrap").bottom();
+		console.log(bottom);
+	})
 
 	var dotsToPlot = 
 	[[41.764391, -87.784413, 1],
@@ -86,6 +94,7 @@ $(document).ready(function() {
 		.attr("fill", "freeze");
 
 	var dot = points.append("circle")
+		.attr("class", "dot")
 		.attr("opacity", "1")
 		.attr("fill", function(d) {
 			var color = scoreToRGB(d[2]);
