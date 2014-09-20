@@ -15,15 +15,17 @@ function mapCoordToPixel(latitude, longitude) {
 //console.log(chicago);
 
 function verticalCenter($div) {
+	console.log("repositioning");
 	var height = $div.parent().height() - $div.height();
-	$div.css('top', (Math.max(0,height))/2);
+	$div.css('top', (Math.max(60,height)) / 2);
 }
 
 $(document).ready(function() {
 
 	$map = $("#map");
-
-	verticalCenter($map);
+	$map.load(function() {
+		verticalCenter(this);
+	})
 
 	$(window).resize(function() {
 		verticalCenter($map);

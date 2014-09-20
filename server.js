@@ -23,6 +23,7 @@ var connectAssets = require('connect-assets');
  * Controllers (route handlers).
  */
 var homeController = require('./controllers/home');
+var homeController = require('./controllers/ajaxController');
 var userController = require('./controllers/user');
 
 /**
@@ -115,6 +116,7 @@ app.use(express.static(path.join(__dirname, 'public'), { maxAge: week }));
  * Main routes.
  */
 app.get('/', homeController.index);
+app.get('/ajax', ajaxController.index);
 //app.get('/', passportConf.isAuthenticated, homeController.index);
 //app.get('/login', userController.getLogin);
 //app.post('/login', userController.postLogin);
