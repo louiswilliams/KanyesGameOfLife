@@ -8,7 +8,6 @@ html
         meta(name='csrf-token', content=_csrf)
         meta(name='author', content='')
         title #{title} | Map
-        != css('styles')
 
         //- script(src="https://cdn.socket.io/socket.io-1.1.0.js")
         script(src="http://d3js.org/d3.v3.min.js")
@@ -17,12 +16,5 @@ html
         link(rel="stylesheet" tyoe="text/css" href="/css/main.css")
 
     body
-        include partials/navbar
-
         .container
-            include partials/flash
             block content
-
-        include partials/footer
-
-        != js('application')
