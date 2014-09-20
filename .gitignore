@@ -29,4 +29,18 @@ node_modules
 
 # IDEA
 .idea
-.idea/*
+
+# Other
+*.csv
+*.dat
+*.out
+*.gz
+*.swp
+
+results
+tmp
+
+npm-debug.log
+*.iml
+.DS_Store
+Thumbs.db
