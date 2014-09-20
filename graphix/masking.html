@@ -1,0 +1,22 @@
+<html>
+	
+
+	<body>
+		<svg>
+			<defs>
+				<radialGradient id="Gradient">
+					<stop offset="0" stop-color="white" stop-opacity="1" />
+					<stop offset="1" stop-color="white" stop-opacity="0" />
+				</radialGradient>
+				<mask id="Mask">
+					<circle cx="40" cy="40" r="20" fill="url(#Gradient)"  />
+				</mask>
+			</defs>
+
+			<!--<rect x="0" y="0" width="200" height="200" fill="green" />
+			<rect x="0" y="0" width="200" height="200" fill="red" mask="url(#Mask)" />-->
+			<rect x="0" y="0" width="200" height="200" fill="green" />
+			<circle cx="10", cy="10", r="20", fill="red", mask="url(#Mask)" />
+		</svg>
+	</body>
+</html>

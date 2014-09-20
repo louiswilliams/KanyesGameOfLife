@@ -15,13 +15,12 @@ function mapCoordToPixel(latitude, longitude) {
 //console.log(chicago);
 
 $(document).ready(function() {
-	console.log("here");
-
 	var dotsToPlot = 
-	[[41.764391, -87.784413],
-	[40.762193, -73.588426],
-	[37.128000, -121.956873],
-	[33.776528, -84.396686]];
+	[[41.764391, -87.784413, 1],
+	[40.762193, -73.588426, -1],
+	[37.128000, -121.956873, .5],
+	[33.776528, -84.396686, -.5],
+	[25.779387, -80.207391, 1]];
 
 	var points = d3.select("#canvas")
 		.selectAll("g")
@@ -36,7 +35,11 @@ $(document).ready(function() {
 		});
 
 	var glow = points.append("circle")
-		.attr("class", "glow")
+		.attr("fill", "rgba(0,0,0,0)")
+		.attr("stroke", function(d) {
+			var color = scoreToRGB(d[2]);
+			return "rgb(" + color.r + "," + color.g + "," + color.b + ")";
+		})
 		.attr("r", "10");
 	
 	glow.append("animate")
@@ -56,9 +59,29 @@ $(document).ready(function() {
 
 	var dot = points.append("circle")
 		.attr("opacity", "1")
+		.attr("fill", function(d) {
+			var color = scoreToRGB(d[2]);
+			return "rgb(" + color.r + "," + color.g + "," + color.b + ")";
+		})
 		.attr("r", "10")
-		.attr("fill", "url(#dotfill)")
+		.attr("mask", "url(#dotmask)")
 		.transition()
 			.attr("opacity", ".5")
 			.duration(2000);
 });
+
+function scoreToRGB(score) {
+	var red = 255, green = 255, blue =0;
+	
+	if (score <= 0) {
+		green += 255 * score;
+	} else if (score > 0) {
+		red -= 255 * score;
+	}
+
+	return {
+		r: Math.floor(red),
+		g: Math.floor(green),
+		b: Math.floor(blue)
+	}
+}	
