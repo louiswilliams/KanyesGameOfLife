@@ -14,8 +14,19 @@ function mapCoordToPixel(latitude, longitude) {
 //var chicago = mapCoordToPixel(41.764391, -87.784413);
 //console.log(chicago);
 
+function verticalCenter($div) {
+	var height = $div.parent().height() - $div.height();
+	$div.css('top', (Math.max(0,height))/2);
+}
+
 $(document).ready(function() {
-	console.log("here");
+	$map = $("#map");
+
+	verticalCenter($map);
+
+	$(window).resize(function() {
+		verticalCenter($map);
+	});
 
 	var dotsToPlot = 
 	[[41.764391, -87.784413],
