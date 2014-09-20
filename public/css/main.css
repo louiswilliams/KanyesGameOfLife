@@ -13,6 +13,17 @@ body {
     height: 100%;
 }
 
+#titlebar {
+    display: block;
+    height: 2em;
+    font-family: "Trebuchet MS";
+    background-color: black;
+    color: white;
+    line-height: 2em;
+    font-size: 2em;
+    padding-left: 5px;
+}
+
 #map {
     background-image: url("../images/map.jpg");
     background-repeat: no-repeat;
