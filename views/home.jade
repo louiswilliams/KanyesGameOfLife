@@ -1,9 +1,10 @@
-extends layout  
+extends layout
 
 block content
-  #titlebar TWEETAR THING
+  #titlebar Geolocated Sentiment Analysis
 
-  #map
+  #mapwrap.content
+    #map
 
     svg(id="canvas", height="100%", width="100%" z-index="1")
       defs
@@ -13,3 +14,9 @@ block content
         
         mask(id="dotmask")
           circle(cx="0",cy="0",r="10", fill="url(#dotgradient)")
+  
+  #description
+    .content
+      h1.heading About This Project
+      p.text
+        | Here is some content about this project.
