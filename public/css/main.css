@@ -1,17 +1,31 @@
+html {
+    width: 100%;
+    height: 100%;
+}
+
 body {
     margin: 0px;
     padding: 0px;
     color: #000;
     background: #385b74;
     font-family: sans-serif;
+    width: 100%;
+    height: 100%;
 }
 
 #map {
     background-image: url("../images/map.jpg");
-    background-repeat: none;
+    background-repeat: no-repeat;
     margin-left: auto;
     margin-right: auto;
     width: 1280px;
     height: 720px;
     display: block;
+    z-index: 0;
+    position: relative;
+}
+
+.glow {
+    stroke: red;
+    fill: rgba(0,0,0,0);
 }
