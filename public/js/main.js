@@ -27,23 +27,32 @@ function verticalCenter($div) {
 }
 
 
-function startStream(query, callback) {
+function startStream(query) {
 	socket.emit('queryStream', {query: query});
 	socket.on('twitterStream', function (msg) {
-		callback(msg);
+		console.log(msg);
+
+		spawnPoint(msg);
+		addCard(msg);
 	})
 }
 
+
+
 $(document).ready(function() {
-	startStream('iHeartRadio', function(data) {
-		console.log(data);
-		//code to spawn dots goes here.
-		spawnPoint(data);
-		addCard(data);
-	});
+	$query = $("#query");
+	startStream($query.val());
 
 	$("#arrows").on("click", function() {
 		$('#description')[0].scrollIntoView(true);
+	})
+
+	$("#query").keypress(function(e) {
+		if (e.keyCode == 13) {
+			d3.select('svg').text('');
+			socket.emit('disconnect');
+			startStream($query.val());
+		}
 	})
 	$map = $("#map");
 	$map.load(function() {
