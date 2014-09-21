@@ -16,6 +16,7 @@ exports.stream = function(socket, msg) {
             var usBox = ['-124.13', '48.0', '-69.90', '30.1'];
             var stream = T.stream('statuses/filter', {
                 track: msg.query,
+                locations: [-122.75,36.8,-121.75,37.8,-74,40,-73,41],
                 language: "en"
             });
 

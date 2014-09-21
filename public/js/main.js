@@ -14,14 +14,6 @@ function mapCoordToPixel(latitude, longitude) {
     return {
         x: parseInt(xscale * (longitude - origin.longitude)),
         y: parseInt(yscale * (origin.latitude - latitude))
-
-        latitude: 48.997431,
-        longitude: -124.723134
-    }
-    return {
-        x: parseInt(21.5204 * (longitude - origin.longitude) + 37),
-        y: parseInt(27.5368 * (origin.latitude - latitude) + 66)
-
     }
 }
 
@@ -43,11 +35,11 @@ function startStream(query, callback) {
 }
 
 $(document).ready(function() {
-	startStream('beyonce', function(data) {
+	startStream('iHeartRadio', function(data) {
 		console.log(data);
 		//code to spawn dots goes here.
-		// spawnPoint(data);
-		// addCard(data);
+		spawnPoint(data);
+		addCard(data);
 	});
 
 	$("#arrows").on("click", function() {
@@ -91,7 +83,6 @@ $(document).ready(function() {
 			var coord = mapCoordToPixel(d[0], d[1]);
 			console.log(coord);
 			return "translate(" + coord["x"] + "," + coord["y"] + ")";
-			return "translate(10,10)";
 		});
 
 	var glow = points.append("circle")
@@ -145,10 +136,11 @@ function arrowControl() {
 }
 
 function addCard(datapoint) {
-	var message = datapoint.message;
-	var user = "caltonji";
+	var message = datapoint.text;
+	var user = datapoint.user.screen_name;
+	var name = datapoint.user.name;
 
-	var data = {msg: message, usr: user};
+	var data = {msg: message, usr: user, name:name};
 	var cards = [];
 	cards.push(data);
 	
@@ -157,15 +149,20 @@ function addCard(datapoint) {
 			.data(cards)
 			.attr("class", "card")
 	
-	card.append("a")
+	var handle = card.append("a")
 		.attr("href", function(d) {
 			return "https://twitter.com/" + d.usr;
 		})
 		.attr("class", "handle")
-			.append("strong")
-			.text(function(d) {
-				return "@" + d.usr;
-			});
+	handle.append("strong")
+		.text(function(d) {
+			return "@" + d.usr;
+		});
+	handle.append("div")
+		.text(function(d) {
+			return "  " + d.name;
+		})
+
 
 	card.append("p")
 		.text(function(d) {
@@ -184,7 +181,10 @@ function spawnPoint(datapoint) {
 			//var coord = mapCoordToPixel(d.x, d.y);
 			//console.log(coord);
 			//console.log(d);
-			return "translate(" + d.x + "," + d.y + ")";
+			var lat = d.coordinates.coordinates[1];
+			var lon = d.coordinates.coordinates[0];
+			var coord = mapCoordToPixel(lat, lon)
+			return "translate(" + coord.x + "," + coord.y + ")";
 		});
 
 	/*var glow = point.append("circle")
@@ -224,8 +224,9 @@ function spawnPoint(datapoint) {
 		.attr("class", "dot")
 		.attr("opacity", "1")
 		.attr("fill", function(d) {
-			var color = scoreToRGB(d.score);
-			return "rgb(" + color.r + "," + color.g + "," + color.b + ")";
+			//var color = scoreToRGB(d.score);
+			//return "rgb(" + color.r + "," + color.g + "," + color.b + ")";
+			return "#FF0000";
 		})
 		.attr("r", "15")
 		.attr("mask", "url(#dotmask)")
