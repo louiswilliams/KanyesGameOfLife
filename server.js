@@ -1,38 +1,43 @@
 /**
  * Module dependencies.
  */
+
+// main
 var express = require('express');
 var compress = require('compression');
+var bodyParser = require('body-parser');
+var methodOverride = require('method-override');
+var flash = require('express-flash');
+var path = require('path');
+var expressValidator = require('express-validator');
+var connectAssets = require('connect-assets');
+
+// storage
 var session = require('express-session');
 var cookie = require('cookie');
 var cookieParser = require('cookie-parser');
-var bodyParser = require('body-parser');
-var logger = require('morgan');
-var csrf = require('lusca').csrf();
-var methodOverride = require('method-override');
-
-var _ = require('lodash');
+var mongoose = require('mongoose');
 var MongoStore = require('connect-mongo')({ session: session });
 
-var flash = require('express-flash');
-var path = require('path');
-var mongoose = require('mongoose');
+// passport
 var passport = require('passport');
-var expressValidator = require('express-validator');
-var connectAssets = require('connect-assets');
+var TwitterStrategy = require('passport-twitter').Strategy
+
+// dev tools & security
+var logger = require('morgan');
+var csrf = require('lusca').csrf();
+var _ = require('lodash');
+
 
 /**
  * Controllers (route handlers).
  */
-var homeController = require('./controllers/home');
 var ajaxController = require('./controllers/ajax');
-var userController = require('./controllers/user');
 
 /**
  * API keys and Passport configuration.
  */
 var secrets = require('./config/secrets');
-var passportConf = require('./config/passport');
 
 /**
  * Connect to MongoDB.
@@ -59,25 +64,18 @@ var app = express();
 /**
  * Socket setup.
  */
- // SocketIO
+
+// socket.io
 var http = require('http').Server(app);
 var io = require('socket.io')(http);
 
-var passportSocketIo = require('passport.socketio');
-// SEssion Store
+// session store
 var sessionStore = new MongoStore({
     url: secrets.db,
     auto_reconnect: true
 });
 
-// io.use(passportSocketIo.authorize({
-//     cookieParser: cookieParser,
-//     passport: passport,
-//     key: 'express.sid',
-//     secret: secrets.sessionSecret,
-//     store: sessionStore
-// }));
-
+// setup
 io.use(function(socket, accept) {
   handshake = socket.handshake;
 
@@ -95,38 +93,11 @@ io.use(function(socket, accept) {
         //accept(err, true);
     });
 
-
     accept(null, true);
   }
 });
 
-
-// io.use(function(socket, next) {
-//     cookieParser(socket.handshake, {}, function(err) {
-//         console.log(socket);
-//         if (err) {
-//             console.log("error in parsing cookie");
-//             return next(err);
-//         }
-//         if (!socket.handshake.signedCookies) {
-//             console.log("no secureCookies|signedCookies found");
-//             return next(new Error("no secureCookies found"));
-//         }
-//         sessionStore.get(socket.handshake.signedCookies["express.sid"], function(err, session){
-//             console.log(session);
-//             socket.session = session;
-//             if (!err && !session) err = new Error('session not found');
-//             if (err) {
-//                  console.log('failed connection to socket.io:', err);
-//             } else {
-//                  console.log('successful connection to socket.io');
-//             }
-//             next(err);
-
-//         });
-//     });
-// });
-
+//connect
 io.on('connection', function(socket) {
     console.log("connection from client: ",socket.id);
     socket.on('queryStream', function(msg) {
@@ -182,37 +153,81 @@ app.use(express.static(path.join(__dirname, 'public'), { maxAge: week }));
 app.use(function(req, res, next) {
     req.io = io;
     next();
-})
+});
+
+
+/**
+ * Setup new SimpleUser model schema.
+ */
+
+var Schema = mongoose.Schema;
+var UserSchema = new Schema({
+    provider: String,
+    uid: String,
+    name: String,
+    image: String,
+    token: String,
+    tokenSecret: String,
+    created: {type: Date, default: Date.now}
+});
+mongoose.model('SimpleUser', UserSchema);
+var SimpleUser = mongoose.model('SimpleUser');
+
+/**
+ * Setup TwitterStrategy passport.
+ */
+passport.use(new TwitterStrategy(secrets.twitter,
+    function(request, token, tokenSecret, profile, done) {
+        SimpleUser.findOne({uid: profile.id}, function(err, user) {
+            if(user) {
+                done(null, user);
+            } else {
+                var user = new SimpleUser();
+                user.provider = "twitter";
+                user.uid = profile.id;
+                user.name = profile.displayName;
+                user.image = profile._json.profile_image_url;
+                user.token = token;
+                user.tokenSecret = tokenSecret;
+                user.save(function(err) {
+                    if(err) { throw err; }
+                    done(null, user);
+                });
+            }
+        })
+    }
+));
+
+passport.serializeUser(function(user, done) {
+    done(null, user.uid);
+});
+
+passport.deserializeUser(function(uid, done) {
+    SimpleUser.findOne({uid: uid}, function (err, user) {
+        done(err, user);
+    });
+});
 
 /**
  * Main routes.
  */
-app.get('/', homeController.index);
-//app.get('/', passportConf.isAuthenticated, homeController.index);
-//app.get('/login', userController.getLogin);
-//app.post('/login', userController.postLogin);
-//app.get('/logout', userController.logout);
-//app.get('/forgot', userController.getForgot);
-//app.post('/forgot', userController.postForgot);
-//app.get('/reset/:token', userController.getReset);
-//app.post('/reset/:token', userController.postReset);
-//app.get('/signup', userController.getSignup);
-//app.post('/signup', userController.postSignup);
-//app.get('/account', passportConf.isAuthenticated, userController.getAccount);
-//app.post('/account/profile', passportConf.isAuthenticated, userController.postUpdateProfile);
-//app.post('/account/password', passportConf.isAuthenticated, userController.postUpdatePassword);
-//app.post('/account/delete', passportConf.isAuthenticated, userController.postDeleteAccount);
-//app.get('/account/unlink/:provider', passportConf.isAuthenticated, userController.getOauthUnlink);
-
-/**
- * OAuth sign-in routes.
- */
-app.get('/login', passport.authenticate('twitter'));
-app.get('/auth/twitter/callback', passport.authenticate('twitter', {
-    failureRedirect: '/auth/twitter',
-    successRedirect: '/' }
-), function(req, res) {
-   res.redirect(req.session.returnTo || '/');
+app.get('/', function(req, res){
+    res.render('home', { user: req.user });
+});
+app.get('/auth/twitter',
+    passport.authenticate('twitter'),
+    function(req, res){
+        // The request will be redirected to Twitter for authentication, so this
+        // function will not be called.
+});
+app.get('/auth/twitter/callback',
+    passport.authenticate('twitter', { failureRedirect: '/login' }),
+    function(req, res) {
+        res.redirect('/');
+});
+app.get('/logout', function(req, res){
+    req.logout();
+    res.redirect('/');
 });
 
 /**
