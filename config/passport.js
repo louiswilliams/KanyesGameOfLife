@@ -2,6 +2,7 @@ var _ = require('lodash');
 var passport = require('passport');
 var LocalStrategy = require('passport-local').Strategy;
 var TwitterStrategy = require('passport-twitter').Strategy;
+var TwitterTokenStrategy = require('passport-twitter-token').Strategy;
 var User = require('../models/User');
 var secrets = require('./secrets');
 
@@ -86,6 +87,18 @@ passport.use(new TwitterStrategy(secrets.twitter, function(req, accessToken, tok
       });
     });
   }
+}));
+
+// Authenticate with Twitter token
+
+var passport = require('passport'),
+    TwitterStrategy = require('passport-twitter').Strategy;
+
+passport.use(new TwitterStrategy(secrets.twitter, function(token, tokenSecret, profile, done) {
+    User.findOrCreate(..., function(err, user) {
+        if (err) { return done(err); }
+        done(null, user);
+    });
 }));
 
 // Login Required middleware.

@@ -114,30 +114,23 @@ app.use(express.static(path.join(__dirname, 'public'), { maxAge: week }));
 /**
  * Main routes.
  */
-app.get('/', homeController.index);
-//app.get('/', passportConf.isAuthenticated, homeController.index);
-//app.get('/login', userController.getLogin);
-//app.post('/login', userController.postLogin);
-//app.get('/logout', userController.logout);
-//app.get('/forgot', userController.getForgot);
-//app.post('/forgot', userController.postForgot);
-//app.get('/reset/:token', userController.getReset);
-//app.post('/reset/:token', userController.postReset);
-//app.get('/signup', userController.getSignup);
-//app.post('/signup', userController.postSignup);
-//app.get('/account', passportConf.isAuthenticated, userController.getAccount);
-//app.post('/account/profile', passportConf.isAuthenticated, userController.postUpdateProfile);
-//app.post('/account/password', passportConf.isAuthenticated, userController.postUpdatePassword);
-//app.post('/account/delete', passportConf.isAuthenticated, userController.postDeleteAccount);
-//app.get('/account/unlink/:provider', passportConf.isAuthenticated, userController.getOauthUnlink);
+app.get('/', homeController.postAuth, homeController.index);
 
 /**
  * OAuth sign-in routes.
  */
-//app.get('/auth/twitter', passport.authenticate('twitter'));
-//app.get('/auth/twitter/callback', passport.authenticate('twitter', { failureRedirect: '/login' }), function(req, res) {
+//app.get('/auth/twitter', passport.authenticate('twitter-token'));
+//app.get('/auth/twitter/callback', passport.authenticate('twitter-token', { failureRedirect: '/login' }), function(req, res) {
 //    res.redirect(req.session.returnTo || '/');
 //});
+
+app.post('/auth/twitter/token',
+    passport.authenticate('twitter-token'),
+    function (req, res) {
+        // do something with req.user
+        res.send(req.user? 200 : 401);
+    }
+);
 
 /**
  * Start Express server.

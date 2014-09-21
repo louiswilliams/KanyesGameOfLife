@@ -6,6 +6,9 @@ var async = require('async');
 var request = require('request');
 var Twit = require('twit');
 var _ = require('lodash');
+var crypto = require('crypto');
+var nodemailer = require('nodemailer');
+var passport = require('passport');
 
 /**
  * GET /
@@ -24,15 +27,16 @@ exports.index = function(req, res) {
 //
 //    T.get('search/tweets', { q: 'nodejs since:2013-01-01', geocode: '40.71448,-74.00598,5mi', count: 10 }, function(err, reply) {
 //        if (err) return next(err);
-//
-//        console.log(reply.statuses);
-//
-//        res.render('home', {
-//            title: 'Home',
-//            tweets: reply.statuses
-//        });
 //    });
     res.render('home', {
         title: 'Home'
     });
 };
+
+//exports.postAuth = function(req, res, next) {
+//    passport.authenticate('twitter-token', function (req, res) {
+//        res.send(req.user? 200 : 401);
+//    })(req, res, next);
+//};
+
+
