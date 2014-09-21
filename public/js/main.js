@@ -30,7 +30,7 @@ function startStream(query, callback) {
 
 $(document).ready(function() {
 	startStream('beyonce', function(data) {
-		//console.log(data);
+		console.log(data);
 		//code to spawn dots goes here.
 		spawnPoint(data);
 	});
@@ -93,13 +93,13 @@ $(document).ready(function() {
 			var color = scoreToRGB(d[2]);
 			return "rgb(" + color.r + "," + color.g + "," + color.b + ")";
 		})
-		.attr("r", "10");
+		.attr("r", "15");
 	
 	glow.append("animate")
 		.attr("attributeType", "XML")
 		.attr("attributeName", "r")
-		.attr("from", "10")
-		.attr("to", "15")
+		.attr("from", "15")
+		.attr("to", "20")
 		.attr("dur", "1s")
 		.attr("fill", "freeze");
 	glow.append("animate")
@@ -117,7 +117,7 @@ $(document).ready(function() {
 			var color = scoreToRGB(d[2]);
 			return "rgb(" + color.r + "," + color.g + "," + color.b + ")";
 		})
-		.attr("r", "10")
+		.attr("r", "15")
 		.attr("mask", "url(#dotmask)")
 		.transition()
 			.attr("opacity", ".5")
@@ -140,15 +140,14 @@ function spawnPoint(datapoint) {
 			return "translate(" + d.x + "," + d.y + ")";
 		});
 
-	var glow = point.append("circle")
+	/*var glow = point.append("circle")
 		.attr("fill", "rgba(0,0,0,0)")
 		.attr("stroke", function(d) {
-			//var color = scoreToRGB(d[2]);
-			//return "rgb(" + color.r + "," + color.g + "," + color.b + ")";
-			return "#FF0000";
+			var color = scoreToRGB(d.score);
+			return "rgb(" + color.r + "," + color.g + "," + color.b + ")";
 		})
 		.attr("r", "10")
-		.attr("stroke-opacity", "1");
+		.attr("stroke-opacity", "1");*/
 	/*glow.append("animate")
 		.attr("attributeType", "XML")
 		.attr("attributeName", "r")
@@ -164,25 +163,24 @@ function spawnPoint(datapoint) {
 		.attr("dur", "1s")
 		.attr("fill", "freeze");*/
 
-	var enlarge = glow.transition()
+	/*var enlarge = glow.transition()
 		.attr("r", "15")
 		.ease("linear")
 		.duration(250);
 		
 	
 	enlarge.transition()
-		.attr("stroke-opacity", "0")
+		.attr("stroke-opacity", "0");*/
 
 
 	var dot = point.append("circle")
 		.attr("class", "dot")
 		.attr("opacity", "1")
 		.attr("fill", function(d) {
-			//var color = scoreToRGB(d[2]);
-			//return "rgb(" + color.r + "," + color.g + "," + color.b + ")";
-			return "#FF0000";
+			var color = scoreToRGB(d.score);
+			return "rgb(" + color.r + "," + color.g + "," + color.b + ")";
 		})
-		.attr("r", "10")
+		.attr("r", "15")
 		.attr("mask", "url(#dotmask)")
 		.transition()
 			.attr("opacity", ".5")
@@ -193,11 +191,34 @@ function spawnPoint(datapoint) {
 function scoreToRGB(score) {
 	var red = 255, green = 255, blue = 0;
 	
-	if (score <= 0) {
+	/*if (score <= 0) {
 		green += 255 * score;
 	} else if (score > 0) {
 		red -= 255 * score;
+	}*/
+
+	/*var green = 0;
+	var red = 0;
+	var blue = 0;
+
+	if(score >= 0) {
+		red = score * 255;
+		blue = 255-red;
+	} else {
+		blue = -score * 255;
+		red = 255-blue;
+	}*/
+
+	if(score >= 0) {
+		red = 255;
+		green = 255 - (255*score);
+		blue = 255 - (255*score);
+	} else {
+		blue = 255;
+		red = 255*score;
+		green = 255*score;
 	}
+	
 
 	return {
 		r: Math.floor(red),
