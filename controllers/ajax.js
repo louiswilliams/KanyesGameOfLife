@@ -7,15 +7,6 @@ var sentiment = require('sentiment');
 
 exports.stream = function(socket, query) {
 
-    // sendTestData(socket);
-    // setInterval(function() {
-    //     sendTestData(socket);
-    // }, 1000);
-    
-    // user = User.find(socket.handshake.session.passport);
-    // if (user) {
-        // var token = user.tokens, { kind: 'twitter' });
-        // console.log(token);
             var T = new Twit({
                consumer_key: secrets.twitter.consumerKey,
                consumer_secret: secrets.twitter.consumerSecret,
@@ -31,7 +22,6 @@ exports.stream = function(socket, query) {
             stream.on('tweet', function(tweet) {
                 socket.emit('twitterStream', tweet);
             });
-    // }
 
 };
 
