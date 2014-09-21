@@ -27,6 +27,27 @@ exports.stream = function(socket, msg) {
                 }
             });
 
+            var maxId = null;
+            getTweets(1)
+            
+            function getTweets(counter) {
+                if(counter === 10) {return;}    
+                // console.log("using max Id: " + maxId);
+                T.get('search/tweets', { q: 'beyonce', count: 100, max_id: maxId}, function(err, data, response) {
+                    for (var j = 0; j < data.statuses.length; j++) {
+                        var tweet = data.statuses[j];
+                        //console.log(tweet);
+                        if (tweet.geo) {
+                            // console.log("found one!");
+                            sendFullDataSet(socket, tweet.text, tweet.user.name, tweet.user.screen_name, tweet.coordinates.coordinates[1], tweet.coordinates.coordinates[0]);         
+                        }
+                        maxId = tweet.id - 1;
+                    }
+                    //maxId = data.search_metadata.max_id;
+                    console.log(maxId);
+                    getTweets(++counter);
+                });
+            }
 };
 
 function textToScore(text) {
