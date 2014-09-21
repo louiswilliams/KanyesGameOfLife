@@ -31,12 +31,12 @@ body {
     webkit-box-sizing: border-box;
 }
 
-input {
+input#query {
     height: 65%;
     font-size: 1em;
     line-height: 1em;
-    margin-top: .25em;
-    margin-right: 25px;
+    padding: 2px 5px;
+    margin-top: 5px;
     border: 1px solid blue;
     font-family: "Trebuchet MS";
     border-radius: 5px;
