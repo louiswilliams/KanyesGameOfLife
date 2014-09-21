@@ -46,8 +46,25 @@ $(document).ready(function() {
 	});
 
 	$(window).scroll(function() {
-		var bottom = $("#arrowWrap").bottom();
-		console.log(bottom);
+		var arrow = $("#arrowWrap");
+		var map = $("#mapwrap");
+
+		//var bottom = window.innerHeight - arrow.position().top + 50;
+		
+		/*if(body.height() > window.innerHeight) {
+			arrow.css("")
+		}*/
+
+		//console.log(window.pageYOffset);
+		console.log(-window.pageYOffset + map.height() - window.innerHeight);
+		var offset = window.innerHeight - (-window.pageYOffset + map.height());
+		if(offset < 0) {
+			//map portion is above the bottom of the screen
+			
+			arrow.css("bottom", -offset + 10 + "px");
+		} else {
+			arrow.css("bottom", 10 + "px")
+		}
 	})
 
 	var dotsToPlot = 
@@ -107,7 +124,7 @@ $(document).ready(function() {
 });
 
 function scoreToRGB(score) {
-	var red = 255, green = 255, blue =0;
+	var red = 255, green = 255, blue = 0;
 	
 	if (score <= 0) {
 		green += 255 * score;
