@@ -125,8 +125,7 @@ app.use(function(req, res, next) {
 /**
  * Main routes.
  */
-app.get('/', homeController.index);
-app.get('/ajax/stream/:query', ajaxController.stream);
+app.get('/', passportConf.isAuthenticated, homeController.index);
 //app.get('/', passportConf.isAuthenticated, homeController.index);
 //app.get('/login', userController.getLogin);
 //app.post('/login', userController.postLogin);
@@ -146,10 +145,13 @@ app.get('/ajax/stream/:query', ajaxController.stream);
 /**
  * OAuth sign-in routes.
  */
-//app.get('/auth/twitter', passport.authenticate('twitter'));
-//app.get('/auth/twitter/callback', passport.authenticate('twitter', { failureRedirect: '/login' }), function(req, res) {
-//    res.redirect(req.session.returnTo || '/');
-//});
+app.get('/login', passport.authenticate('twitter'));
+app.get('/auth/twitter/callback', passport.authenticate('twitter', {
+    failureRedirect: '/auth/twitter',
+    successRedirect: '/' }
+), function(req, res) {
+   res.redirect(req.session.returnTo || '/');
+});
 
 /**
  * Start Express server.

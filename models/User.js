@@ -1,10 +1,15 @@
 var mongoose = require('mongoose');
 var bcrypt = require('bcrypt-nodejs');
 var crypto = require('crypto');
+var findOrCreate = require('mongoose-findorcreate');
 
 var userSchema = new mongoose.Schema({
   email: { type: String, unique: true, lowercase: true },
   password: String,
+
+  twitterId: Number,
+  token: Number,
+  tokenSecret: Number,
 
   facebook: String,
   twitter: String,
@@ -25,6 +30,9 @@ var userSchema = new mongoose.Schema({
   resetPasswordToken: String,
   resetPasswordExpires: Date
 });
+
+// Find or create
+userSchema.plugin(findOrCreate);
 
 /**
  * Hash the password for security.
