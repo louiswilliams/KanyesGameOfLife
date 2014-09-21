@@ -30,7 +30,9 @@ function startStream(query, callback) {
 
 $(document).ready(function() {
 	startStream('beyonce', function(data) {
-		console.log(data);
+		//console.log(data);
+		//code to spawn dots goes here.
+		spawnPoint(data);
 	});
 
 	$("#arrows").on("click", function() {
@@ -56,7 +58,6 @@ $(document).ready(function() {
 		}*/
 
 		//console.log(window.pageYOffset);
-		console.log(-window.pageYOffset + map.height() - window.innerHeight);
 		var offset = window.innerHeight - (-window.pageYOffset + map.height());
 		if(offset < 0) {
 			//map portion is above the bottom of the screen
@@ -122,6 +123,72 @@ $(document).ready(function() {
 			.attr("opacity", ".5")
 			.duration(2000);
 });
+
+
+function spawnPoint(datapoint) {
+	var datapointArray = [];
+	datapointArray.push(datapoint);
+
+	var point = d3.select("#canvas")
+		.append("g")
+		.data(datapointArray)
+		.attr("class", "point")
+		.attr("transform", function(d) {
+			//var coord = mapCoordToPixel(d.x, d.y);
+			//console.log(coord);
+			//console.log(d);
+			return "translate(" + d.x + "," + d.y + ")";
+		});
+
+	var glow = point.append("circle")
+		.attr("fill", "rgba(0,0,0,0)")
+		.attr("stroke", function(d) {
+			//var color = scoreToRGB(d[2]);
+			//return "rgb(" + color.r + "," + color.g + "," + color.b + ")";
+			return "#FF0000";
+		})
+		.attr("r", "10")
+		.attr("stroke-opacity", "1");
+	/*glow.append("animate")
+		.attr("attributeType", "XML")
+		.attr("attributeName", "r")
+		.attr("from", "10")
+		.attr("to", "15")
+		.attr("dur", "3s")
+		.attr("fill", "freeze");*/
+	/*glow.append("animate")
+		.attr("attributeType", "CSS")
+		.attr("attributeName", "stroke-opacity")
+		.attr("from", "1")
+		.attr("to", "0")
+		.attr("dur", "1s")
+		.attr("fill", "freeze");*/
+
+	var enlarge = glow.transition()
+		.attr("r", "15")
+		.ease("linear")
+		.duration(250);
+		
+	
+	enlarge.transition()
+		.attr("stroke-opacity", "0")
+
+
+	var dot = point.append("circle")
+		.attr("class", "dot")
+		.attr("opacity", "1")
+		.attr("fill", function(d) {
+			//var color = scoreToRGB(d[2]);
+			//return "rgb(" + color.r + "," + color.g + "," + color.b + ")";
+			return "#FF0000";
+		})
+		.attr("r", "10")
+		.attr("mask", "url(#dotmask)")
+		.transition()
+			.attr("opacity", ".5")
+			.duration(2000);
+
+}
 
 function scoreToRGB(score) {
 	var red = 255, green = 255, blue = 0;
