@@ -114,23 +114,15 @@ app.use(express.static(path.join(__dirname, 'public'), { maxAge: week }));
 /**
  * Main routes.
  */
-app.get('/', homeController.postAuth, homeController.index);
+app.get('/',  homeController.postAuth, homeController.index);
 
 /**
  * OAuth sign-in routes.
  */
-//app.get('/auth/twitter', passport.authenticate('twitter-token'));
-//app.get('/auth/twitter/callback', passport.authenticate('twitter-token', { failureRedirect: '/login' }), function(req, res) {
-//    res.redirect(req.session.returnTo || '/');
-//});
-
-app.post('/auth/twitter/token',
-    passport.authenticate('twitter-token'),
-    function (req, res) {
-        // do something with req.user
-        res.send(req.user? 200 : 401);
-    }
-);
+app.get('/auth/twitter', passport.authenticate('twitter'));
+app.get('/auth/twitter/callback', passport.authenticate('twitter', { failureRedirect: '/login' }), function(req, res) {
+    res.redirect(req.session.returnTo || '/');
+});
 
 /**
  * Start Express server.

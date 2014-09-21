@@ -33,10 +33,10 @@ exports.index = function(req, res) {
     });
 };
 
-//exports.postAuth = function(req, res, next) {
-//    passport.authenticate('twitter-token', function (req, res) {
-//        res.send(req.user? 200 : 401);
-//    })(req, res, next);
-//};
+exports.postAuth = function(req, res, next) {
+    passport.authenticate('twitter', function (req, res) {
+        res.send(req.session ? 200 : 401);
+    })(req, res, next);
+};
 
 
