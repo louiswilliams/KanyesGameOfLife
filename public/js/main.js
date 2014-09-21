@@ -43,6 +43,10 @@ $(document).ready(function() {
 	$map.load(function() {
 		verticalCenter(this);
 	})
+	//resize map properly
+	$map.width(window.innerWidth - 350);
+	$map.css("background-size", $map.width() + "px")
+
 
 	$(window).resize(function() {
 		verticalCenter($map);

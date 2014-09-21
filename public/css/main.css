@@ -15,16 +15,15 @@ body {
 }
 
 #titlebar {
-    position: absolute;
-    display: inline-block;
+    display: block;
     height: 2em;
     font-family: "Trebuchet MS";
     background-color: black;
     color: white;
     line-height: 2em;
     font-size: 2em;
-    left: 0px;
-    padding: 0px 20px 0px 50px;
+    /*padding: 0px 20px 0px 50px;*/
+    padding-left: 20px;
     z-index: 10;
     width: 100%;
     box-sizing: border-box;
@@ -47,12 +46,16 @@ input {
 .dot:hover {
     opacity: .8;
 }
+
 #mapwrap {
     height: 100%;
     position: relative;
-    padding-left: 5px;
     display: block;
     min-height: 780px;
+    margin-left: auto;
+    margin-right: auto;
+    float: left;
+    width: 100%;
 }
 
 
@@ -71,7 +74,6 @@ input {
     position: absolute;
     height: 50px;
     width: 50px;
-    
     right: 20px;
 }
 
@@ -85,30 +87,31 @@ input {
     background: rgb(36,36,36);
     width: 100%;
     height: 200px;
-    margin-bottom: 0px;
-    padding-bottom: 0px;
+    display: block;
 }
 
-.content {
+/*.content {
     margin-left: auto;
     margin-right: auto;
     width: 1280px;
-}
+}*/
 
-.heading {
+/*.heading {
     padding-top: 25px;
     display: block;
     z-index: 0;
-    position: relative;
-}
+}*/
 
 /*FEED*/
 #list {
     background-color: #ecf0f1;
-    width: 400px;
+    width: 350px;
     font-family: "Trebuchet MS";
-    
+    float: right;
+    display: inline;
     box-shadow: inset 1px 0px 1px 1px #95a5a6;
+    height: 100%;
+    overflow: scroll;
 }
 
 .card {
