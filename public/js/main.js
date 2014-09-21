@@ -30,10 +30,10 @@ function startStream(query, callback) {
 
 $(document).ready(function() {
 	startStream('beyonce', function(data) {
-		//console.log(data);
+		console.log(data);
 		//code to spawn dots goes here.
-		spawnPoint(data);
-		addCard(data);
+		// spawnPoint(data);
+		// addCard(data);
 	});
 
 	$("#arrows").on("click", function() {

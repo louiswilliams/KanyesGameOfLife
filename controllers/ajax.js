@@ -1,34 +1,38 @@
 var secrets = require('../config/secrets');
 var randomWords = require('random-words')
 var Twit = require('twit');
+var User = require('../models/User')
 var _ = require('lodash');
 var sentiment = require('sentiment');
 
-exports.stream = function(socket) {
+exports.stream = function(socket, query) {
 
     // sendTestData(socket);
-    setInterval(function() {
-        sendTestData(socket);
-    }, 1000);
+    // setInterval(function() {
+    //     sendTestData(socket);
+    // }, 1000);
+    
+    // user = User.find(socket.handshake.session.passport);
+    // if (user) {
+        // var token = user.tokens, { kind: 'twitter' });
+        // console.log(token);
+            var T = new Twit({
+               consumer_key: secrets.twitter.consumerKey,
+               consumer_secret: secrets.twitter.consumerSecret,
+               access_token: "391188422-TGrNHdpWElJrzqELkpXJBQhe8EK2KIUuO5ojh4CG",
+               access_token_secret: "SMOTGnAixh2kf8R4V5SkEdJwJjG95EuDWUYnaVs0LOR3C",
+            });
 
-    // var token = _.find(req.user.tokens, { kind: 'twitter' });
-    // if (!token) {
-    //     res.status(403).json({error: "Not authenticated"});
-    // } else if (!req.param('query')) {
-    //     res.status(400).json({error: "Bad query"});
-    // } else {
-    //     var T = new Twit({
-    //        consumer_key: secrets.twitter.consumerKey,
-    //        consumer_secret: secrets.twitter.consumerSecret,
-    //        access_token: token.accessToken,
-    //        access_token_secret: token.tokenSecret            
-    //     });
+            var stream = T.stream('statuses/filter', {
+                track: socket.query,
+                locations: '-180,-90,180,90'
+            });
 
-    //     T.stream('statuses/filter', {
-    //         track: query,
-    //         locations: '-180,-90,180,90'
-    //     });
+            stream.on('tweet', function(tweet) {
+                socket.emit('twitterStream', tweet);
+            });
     // }
+
 };
 
 function textToScore(text) {

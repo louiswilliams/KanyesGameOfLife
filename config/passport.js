@@ -48,14 +48,13 @@ passport.deserializeUser(function(id, done) {
 // Sign in with Twitter.
 
 passport.use(new TwitterStrategy(secrets.twitter,
-  function(token, tokenSecret, profile, done) {
+  function(token, tokenSecret, profile, u, done) {
+    //console.log(u);
+
     User.findOrCreate({
-      twitterId: profile.id,
-      token: token,
-      tokenSecret: tokenSecret
+      twitterId: profile.id
     }, function(err, user) {
       if (err) { return done(err); }
-      console.log(done);
       done(null, user);
     });
   }
