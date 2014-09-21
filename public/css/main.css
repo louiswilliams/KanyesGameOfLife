@@ -44,7 +44,9 @@ input {
     float: right;
     display: inline-block;
 }
-
+.dot:hover {
+    opacity: .8;
+}
 #mapwrap {
     height: 100%;
     position: relative;
