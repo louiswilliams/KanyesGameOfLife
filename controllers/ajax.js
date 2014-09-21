@@ -7,9 +7,9 @@ var sentiment = require('sentiment');
 exports.stream = function(socket) {
 
     // sendTestData(socket);
-    setInterval(function() {
+    /*setInterval(function() {
         sendTestData(socket);
-    }, 1000);
+    }, 1000);*/
 
     // var token = _.find(req.user.tokens, { kind: 'twitter' });
     // if (!token) {

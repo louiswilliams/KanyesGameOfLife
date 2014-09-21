@@ -2,12 +2,16 @@ var socket = io();
 
 function mapCoordToPixel(latitude, longitude) {
     origin = {
-        latitude: 48.997431,
-        longitude: -124.723134
+        latitude: 49.16,
+        longitude: -124.771694
     }
+
+	//pixels per degree latitude
+    xscale = $("#map").width()/58.238583;
+    yscale = $("#map").height()/24.639167;
     return {
-        x: parseInt(21.5204 * (longitude - origin.longitude) + 37),
-        y: parseInt(27.5368 * (origin.latitude - latitude) + 66)
+        x: parseInt(xscale * (longitude - origin.longitude) + 37),
+        y: parseInt(yscale * (origin.latitude - latitude) + 66)
     }
 }
 
@@ -46,6 +50,9 @@ $(document).ready(function() {
 	//resize map properly
 	$map.width(window.innerWidth - 350);
 	$map.css("background-size", $map.width() + "px")
+
+	$("#canvas").width(window.innerWidth - 350);
+	$("#canvas").css("height", "100%");
 
 
 	$(window).resize(function() {
@@ -87,9 +94,8 @@ $(document).ready(function() {
 		.attr("class", "ping")
 		.attr("transform", function(d) {
 			var coord = mapCoordToPixel(d[0], d[1]);
-			console.log(coord);
+			//console.log(coord);
 			return "translate(" + coord["x"] + "," + coord["y"] + ")";
-			return "translate(10,10)";
 		});
 
 	var glow = points.append("circle")
