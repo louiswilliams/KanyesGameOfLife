@@ -136,9 +136,9 @@ function arrowControl() {
 }
 
 function addCard(datapoint) {
-	var message = datapoint.text;
-	var user = datapoint.user.screen_name;
-	var name = datapoint.user.name;
+	var message = datapoint.message;
+	var user = datapoint.screen_name;
+	var name = datapoint.name;
 
 	var data = {msg: message, usr: user, name:name};
 	var cards = [];
@@ -153,6 +153,7 @@ function addCard(datapoint) {
 		.attr("href", function(d) {
 			return "https://twitter.com/" + d.usr;
 		})
+		.attr("target", "_blank")
 		.attr("class", "handle")
 	handle.append("strong")
 		.text(function(d) {
@@ -181,8 +182,8 @@ function spawnPoint(datapoint) {
 			//var coord = mapCoordToPixel(d.x, d.y);
 			//console.log(coord);
 			//console.log(d);
-			var lat = d.coordinates.coordinates[1];
-			var lon = d.coordinates.coordinates[0];
+			var lat = d.lat;
+			var lon = d.lng;
 			var coord = mapCoordToPixel(lat, lon)
 			return "translate(" + coord.x + "," + coord.y + ")";
 		});

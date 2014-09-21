@@ -6,7 +6,7 @@
 	</head>
 
 	<body>
-		<div id="title">TWEETAR THING</div>
+		<div id="title" onclick="link('/login')">TWEETAR THING</div>
 		<div id="tagline">Let's face it, we all love Beyonce.</div>
 		<div id="button">Log In</div>
 
@@ -67,4 +67,10 @@
 		}
 
 	</style>
+
+	<script>
+		function link(destination) {
+			window.location = destination;
+		}
+	</script>
 </html>

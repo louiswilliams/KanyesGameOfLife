@@ -16,13 +16,14 @@ exports.stream = function(socket, msg) {
             var usBox = ['-124.13', '48.0', '-69.90', '30.1'];
             var stream = T.stream('statuses/filter', {
                 track: msg.query,
-                locations: [-122.75,36.8,-121.75,37.8,-74,40,-73,41],
+                locations: [-180,-90,180,90],
                 language: "en"
             });
 
             stream.on('tweet', function(tweet) {
                 if (tweet.geo) {
-                    socket.emit('twitterStream', tweet);                
+                    // socket.emit('twitterStream', tweet);
+                    sendFullDataSet(socket, tweet.text, tweet.user.name, tweet.user.screen_name, tweet.coordinates.coordinates[1], tweet.coordinates.coordinates[0]);         
                 }
             });
 
@@ -37,6 +38,18 @@ function textToScore(text) {
     if (score > 1) score = 1;
     if (score < -1) score = -1;
     return score;
+}
+
+function sendFullDataSet(socket, message, name, screen_name, lat, lng) {
+    score = textToScore(message);
+    socket.emit('twitterStream', {
+        lat: lat,
+        lng: lng,
+        message:  message,
+        name: name,
+        screen_name: screen_name,
+        score: score
+    });
 }
 
 function sendTestData(socket) {
