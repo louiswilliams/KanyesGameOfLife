@@ -1,4 +1,4 @@
-var socket = io();
+var socket = io(); 
 
 function mapCoordToPixel(latitude, longitude) {
     origin = {
@@ -22,16 +22,15 @@ function verticalCenter($div) {
 
 
 function startStream(query, callback) {
-	$.get('/ajax/stream/' + query).done(function(data) {
-		socket.emit('message', "test!" );
-		console.log(data);
-	});
-	callback();
+	socket.emit('queryStream', {query: query});
+	socket.on('twitterStream', function (msg) {
+		callback(msg);
+	})
 }
 
 $(document).ready(function() {
-	startStream('beyonce', function() {
-
+	startStream('beyonce', function(data) {
+		console.log(data);
 	});
 
 	$("#arrows").on("click", function() {

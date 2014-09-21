@@ -1,10 +1,14 @@
 var secrets = require('../config/secrets');
+var randomWords = require('random-words')
 var Twit = require('twit');
 var _ = require('lodash');
 
-exports.stream = function(req, res) {
+exports.stream = function(socket) {
 
-    res.send("Starting socket");
+    // sendTestData(socket);
+    setInterval(function() {
+        sendTestData(socket);
+    }, 1000);
 
     // var token = _.find(req.user.tokens, { kind: 'twitter' });
     // if (!token) {
@@ -25,3 +29,19 @@ exports.stream = function(req, res) {
     //     });
     // }
 };
+
+function sendTestData(socket) {
+    message = "";
+    for (var i=0; i<16; i++) {
+        message += randomWords();
+        if (i<15) {
+            message += " ";
+        }
+    }
+    message += ".";
+    socket.emit('twitterStream', {
+        y: Math.random() * 635,
+        x: Math.random() * 1225,
+        message:  message
+    });
+ }

@@ -10,16 +10,6 @@ var logger = require('morgan');
 var csrf = require('lusca').csrf();
 var methodOverride = require('method-override');
 
-// SocketIO
-var http = require('http').Server(app);
-var io = require('socket.io')(http);
-io.on('connection', function(socket) {
-    console.log("connection...");
-    socket.on('message', function(msg) {
-        console.log("Message: " + message);
-    })
-});
-
 
 var _ = require('lodash');
 var MongoStore = require('connect-mongo')({ session: session });
@@ -68,8 +58,17 @@ var app = express();
 /**
  * Socket setup.
  */
-//var http = require('http').Server(app);
-//var io = require('socket.io')(http);
+ // SocketIO
+var http = require('http').Server(app);
+var io = require('socket.io')(http);
+
+io.on('connection', function(socket) {
+    console.log("connection from client: ",socket.id);
+    socket.on('queryStream', function(msg) {
+        ajaxController.stream(socket);
+    });
+});
+
 
 /**
  * Express configuration.
@@ -123,10 +122,6 @@ app.use(function(req, res, next) {
     next();
 })
 
-//io.on('connection', function(socket){
-//   console.log("connection!");
-//});
-
 /**
  * Main routes.
  */
@@ -159,7 +154,7 @@ app.get('/ajax/stream/:query', ajaxController.stream);
 /**
  * Start Express server.
  */
-app.listen(app.get('port'), function() {
+http.listen(app.get('port'), function() {
     console.log('Express server listening on port %d in %s mode', app.get('port'), app.get('env'));
 });
 
