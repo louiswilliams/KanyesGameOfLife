@@ -20,7 +20,7 @@ module.exports = {
 
   db: process.env.MONGODB|| 'mongodb://admin:hello@kahana.mongohq.com:10059/hack_gt',
 
-  sessionSecret: process.env.SESSION_SECRET || 'Your Session Secret goes here',
+  sessionSecret: process.env.SESSION_SECRET || 'chrisbattagliatakesituptherear',
 
   twitter: {
       consumerKey: process.env.TWITTER_KEY || '3Muxu1Uudb989aVFcXqibvbvo',

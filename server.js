@@ -2,17 +2,18 @@
  * Module dependencies.
  */
 var express = require('express');
-var cookieParser = require('cookie-parser');
 var compress = require('compression');
 var session = require('express-session');
+var cookie = require('cookie');
+var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
 var logger = require('morgan');
 var csrf = require('lusca').csrf();
 var methodOverride = require('method-override');
 
-
 var _ = require('lodash');
 var MongoStore = require('connect-mongo')({ session: session });
+
 var flash = require('express-flash');
 var path = require('path');
 var mongoose = require('mongoose');
@@ -62,13 +63,76 @@ var app = express();
 var http = require('http').Server(app);
 var io = require('socket.io')(http);
 
+var passportSocketIo = require('passport.socketio');
+// SEssion Store
+var sessionStore = new MongoStore({
+    url: secrets.db,
+    auto_reconnect: true
+});
+
+// io.use(passportSocketIo.authorize({
+//     cookieParser: cookieParser,
+//     passport: passport,
+//     key: 'express.sid',
+//     secret: secrets.sessionSecret,
+//     store: sessionStore
+// }));
+
+io.use(function(socket, accept) {
+  handshake = socket.handshake;
+
+  if (handshake.headers.cookie) {
+    handshake.cookie = cookie.parse(handshake.headers.cookie);
+
+    handshake.sessionId = cookieParser.signedCookie(handshake.cookie['express.sid'], secrets.sessionSecret);
+    // console.log(handshake.sessionId);
+    sessionStore.get(handshake.sessionId, function(err, session) {
+        handshake.session = session;
+        if (!err && !session ) {
+            err = new Error('session not found');
+        }
+        handshake.session = session;
+        //accept(err, true);
+    });
+
+
+    accept(null, true);
+  }
+});
+
+
+// io.use(function(socket, next) {
+//     cookieParser(socket.handshake, {}, function(err) {
+//         console.log(socket);
+//         if (err) {
+//             console.log("error in parsing cookie");
+//             return next(err);
+//         }
+//         if (!socket.handshake.signedCookies) {
+//             console.log("no secureCookies|signedCookies found");
+//             return next(new Error("no secureCookies found"));
+//         }
+//         sessionStore.get(socket.handshake.signedCookies["express.sid"], function(err, session){
+//             console.log(session);
+//             socket.session = session;
+//             if (!err && !session) err = new Error('session not found');
+//             if (err) {
+//                  console.log('failed connection to socket.io:', err);
+//             } else {
+//                  console.log('successful connection to socket.io');
+//             }
+//             next(err);
+
+//         });
+//     });
+// });
+
 io.on('connection', function(socket) {
     console.log("connection from client: ",socket.id);
     socket.on('queryStream', function(msg) {
-        ajaxController.stream(socket);
+        ajaxController.stream(socket, msg);
     });
 });
-
 
 /**
  * Express configuration.
@@ -89,10 +153,8 @@ app.use(methodOverride());
 app.use(cookieParser());
 app.use(session({
     secret: secrets.sessionSecret,
-    store: new MongoStore({
-        url: secrets.db,
-        auto_reconnect: true
-    })
+    store: sessionStore,
+    key: 'express.sid'
 }));
 app.use(passport.initialize());
 app.use(passport.session());

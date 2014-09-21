@@ -1,0 +1,4 @@
+
+> maps@1.0.0 start /var/www/node/map
+> node server.js
+

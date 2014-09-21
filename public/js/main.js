@@ -2,6 +2,7 @@ var socket = io();
 
 function mapCoordToPixel(latitude, longitude) {
     origin = {
+
         latitude: 48.98,
         longitude: -124.771694
     }
@@ -13,6 +14,14 @@ function mapCoordToPixel(latitude, longitude) {
     return {
         x: parseInt(xscale * (longitude - origin.longitude)),
         y: parseInt(yscale * (origin.latitude - latitude))
+
+        latitude: 48.997431,
+        longitude: -124.723134
+    }
+    return {
+        x: parseInt(21.5204 * (longitude - origin.longitude) + 37),
+        y: parseInt(27.5368 * (origin.latitude - latitude) + 66)
+
     }
 }
 
@@ -35,10 +44,10 @@ function startStream(query, callback) {
 
 $(document).ready(function() {
 	startStream('beyonce', function(data) {
-		//console.log(data);
+		console.log(data);
 		//code to spawn dots goes here.
-		spawnPoint(data);
-		addCard(data);
+		// spawnPoint(data);
+		// addCard(data);
 	});
 
 	$("#arrows").on("click", function() {
@@ -52,8 +61,11 @@ $(document).ready(function() {
 	$map.width(window.innerWidth - 350);
 	$map.css("background-size", $map.width() + "px")
 
+
 	//document.getElementById("canvas").removeAttribute("width");
 	//document.getElementById("canvas").removeAttribute("height");
+
+
 
 	$(window).resize(function() {
 		verticalCenter($map);
@@ -77,8 +89,9 @@ $(document).ready(function() {
 		.attr("class", "ping")
 		.attr("transform", function(d) {
 			var coord = mapCoordToPixel(d[0], d[1]);
-			//console.log(coord);
+			console.log(coord);
 			return "translate(" + coord["x"] + "," + coord["y"] + ")";
+			return "translate(10,10)";
 		});
 
 	var glow = points.append("circle")
