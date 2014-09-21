@@ -1,12 +1,14 @@
 extends layout
 
-head
-	link(rel="stylesheet" tyoe="text/css" href="/css/landingstyles.css")
+block head
+	<link href='http://fonts.googleapis.com/css?family=Montserrat:400,700' rel='stylesheet' type='text/css'>
+	link(rel="stylesheet" type="text/css" href="/css/landingstyles.css")
+
 
 block content
 	#title TWEETAR THING
 	#tagline Let's face it, we all love Beyonce
-	a(href="/account/login")
+	a(href="/login")
 		#button Log In
 
 	#copyleft (C) Dumbassery Ltd, 2014.  All rights reserved.

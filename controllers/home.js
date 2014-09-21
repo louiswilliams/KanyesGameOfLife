@@ -36,3 +36,9 @@ exports.index = function(req, res) {
         title: 'Home'
     });
 };
+
+exports.landing = function(req, res) {
+    res.render('landing', {
+        title: 'Landing'
+    });
+};

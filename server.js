@@ -187,7 +187,8 @@ app.use(function(req, res, next) {
 /**
  * Main routes.
  */
-app.get('/', homeController.index);
+app.get('/', homeController.landing);
+app.get('/home', homeController.index);
 //app.get('/', passportConf.isAuthenticated, homeController.index);
 //app.get('/login', userController.getLogin);
 //app.post('/login', userController.postLogin);
@@ -210,7 +211,7 @@ app.get('/', homeController.index);
 app.get('/login', passport.authenticate('twitter'));
 app.get('/auth/twitter/callback', passport.authenticate('twitter', {
     failureRedirect: '/auth/twitter',
-    successRedirect: '/' }
+    successRedirect: '/home' }
 ), function(req, res) {
    res.redirect(req.session.returnTo || '/');
 });
