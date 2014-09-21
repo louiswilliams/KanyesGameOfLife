@@ -9,7 +9,7 @@ exports.stream = function(socket) {
     // sendTestData(socket);
     setInterval(function() {
         sendTestData(socket);
-    }, 100);
+    }, 1000);
 
     // var token = _.find(req.user.tokens, { kind: 'twitter' });
     // if (!token) {

@@ -30,7 +30,7 @@ function startStream(query, callback) {
 
 $(document).ready(function() {
 	startStream('beyonce', function(data) {
-		console.log(data);
+		//console.log(data);
 		//code to spawn dots goes here.
 		spawnPoint(data);
 		addCard(data);
@@ -128,8 +128,30 @@ $(document).ready(function() {
 function addCard(datapoint) {
 	var message = datapoint.message;
 	var user = "caltonji";
-	
 
+	var data = {msg: message, usr: user};
+	var cards = [];
+	cards.push(data);
+	
+	var card = d3.select("#list")
+		.insert("div", ":first-child")
+			.data(cards)
+			.attr("class", "card")
+	
+	card.append("a")
+		.attr("href", function(d) {
+			return "https://twitter.com/" + d.usr;
+		})
+		.attr("class", "handle")
+			.append("strong")
+			.text(function(d) {
+				return "@" + d.usr;
+			});
+
+	card.append("p")
+		.text(function(d) {
+			return d.msg;
+		})
 }
 function spawnPoint(datapoint) {
 	var datapointArray = [];
