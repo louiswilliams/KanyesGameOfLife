@@ -7,7 +7,7 @@ block content
   #mapwrap.content
     #map
 
-      svg(id="canvas", z-index="1", x="0", y="0")
+      svg(id="canvas", z-index="1")
         defs
           radialGradient(id="dotgradient")
             stop(offset="30%", stop-color="white", stop-opacity="1")
@@ -26,4 +26,8 @@ block content
     .content
       h1.heading About This Project
       p.text
-        | Here is some content about this project.
+        | This tool was designed to allow you to visualize popular sentiment across the United States on a wide variety of issues - anything you can hashtag, in fact!
+      p.text
+        | On this screen you'll see a variety of components.  The most important is the large map, which will place markers for any and all tweets that are found.  Different colors represent different feelings on whatever hashtag is being used at the moment. For a little more detail, look to the live tweet feed on the right of the screen.  This will show relevant tweets as they come up, allowing you to get right in the thick of the virtual action.  If you get bored, or decide you'd rather look at something else, simply change the hashtag used to search in the box to the top left.
+      p.text
+        | Whatever hashtag you choose, this tool will use a combination of Tweet mining and Sentiment Analysis to create a visualization of how people feel about a certain issue.  A little messy at times?  Yes.  But so are people's opinions!  We hope this gives you insight into what people think and feel, and maybe even that it helps you figure out why.

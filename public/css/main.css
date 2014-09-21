@@ -65,16 +65,24 @@ input {
     height: 720px;
     width: 1280px;
     display: block;
-    z-index: 0;
-    top: 60px;
+    z-index: -1;
+    top: 30px;
     position: absolute;
+}
+
+#canvas {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    top: 0;
+    left: 0;
 }
 
 #arrowWrap {
     position: absolute;
     height: 50px;
     width: 50px;
-    right: 20px;
+    right: 370px;
 }
 
 #arrows {
@@ -86,8 +94,9 @@ input {
     color: #fff;
     background: rgb(36,36,36);
     width: 100%;
-    height: 200px;
     display: inline-block;
+    padding-left: 5px;
+    font-family: "Trebuchet MS";
 }
 
 /*.content {
@@ -130,6 +139,6 @@ input {
 .handle:visited {
     color: inherit;
 }
-.handle: hover {
+.handle:hover {
 
 }

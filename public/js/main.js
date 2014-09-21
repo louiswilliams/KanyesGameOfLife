@@ -2,16 +2,17 @@ var socket = io();
 
 function mapCoordToPixel(latitude, longitude) {
     origin = {
-        latitude: 49.16,
+        latitude: 48.98,
         longitude: -124.771694
     }
 
-	//pixels per degree latitude
+	//pixels per degree longitude
     xscale = $("#map").width()/58.238583;
-    yscale = $("#map").height()/24.639167;
+    //pixels per degree latitude
+    yscale = $("#map").height()/27;
     return {
-        x: parseInt(xscale * (longitude - origin.longitude) + 37),
-        y: parseInt(yscale * (origin.latitude - latitude) + 66)
+        x: parseInt(xscale * (longitude - origin.longitude)),
+        y: parseInt(yscale * (origin.latitude - latitude))
     }
 }
 
@@ -51,40 +52,22 @@ $(document).ready(function() {
 	$map.width(window.innerWidth - 350);
 	$map.css("background-size", $map.width() + "px")
 
-	$("#canvas").width(window.innerWidth - 350);
-	$("#canvas").css("height", "100%");
-
+	//document.getElementById("canvas").removeAttribute("width");
+	//document.getElementById("canvas").removeAttribute("height");
 
 	$(window).resize(function() {
 		verticalCenter($map);
 	});
 
-	$(window).scroll(function() {
-		var arrow = $("#arrowWrap");
-		var map = $("#mapwrap");
-
-		//var bottom = window.innerHeight - arrow.position().top + 50;
+	arrowControl();
+	$(window).scroll(arrowControl);
 		
-		/*if(body.height() > window.innerHeight) {
-			arrow.css("")
-		}*/
-
-		//console.log(window.pageYOffset);
-		var offset = window.innerHeight - (-window.pageYOffset + map.height());
-		if(offset < 0) {
-			//map portion is above the bottom of the screen
-			
-			arrow.css("bottom", -offset + 10 + "px");
-		} else {
-			arrow.css("bottom", 10 + "px")
-		}
-	})
 
 	var dotsToPlot = 
 	[[41.764391, -87.784413, 1],
 	[40.762193, -73.588426, -1],
-	[37.128000, -121.956873, .5],
-	[33.776528, -84.396686, -.5],
+	[37.128000, -121.956873, 1],
+	[33.776528, -84.396686, 1],
 	[25.779387, -80.207391, 1]];
 
 	var points = d3.select("#canvas")
@@ -134,6 +117,19 @@ $(document).ready(function() {
 			.attr("opacity", ".5")
 			.duration(2000);
 });
+
+function arrowControl() {
+	var arrow = $("#arrowWrap");
+	var map = $("#mapwrap");
+
+	var offset = window.innerHeight - (-window.pageYOffset + map.height() + map.position().top);
+	if(offset > 0) {
+		//map portion is above the bottom of the screen
+		arrow.css("bottom", 10 + "px");
+	} else {
+		arrow.css("bottom", -offset + 10 + "px");
+	}
+}
 
 function addCard(datapoint) {
 	var message = datapoint.message;
