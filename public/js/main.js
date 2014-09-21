@@ -33,6 +33,7 @@ $(document).ready(function() {
 		console.log(data);
 		//code to spawn dots goes here.
 		spawnPoint(data);
+		addCard(data);
 	});
 
 	$("#arrows").on("click", function() {
@@ -124,7 +125,12 @@ $(document).ready(function() {
 			.duration(2000);
 });
 
+function addCard(datapoint) {
+	var message = datapoint.message;
+	var user = "caltonji";
+	
 
+}
 function spawnPoint(datapoint) {
 	var datapointArray = [];
 	datapointArray.push(datapoint);
