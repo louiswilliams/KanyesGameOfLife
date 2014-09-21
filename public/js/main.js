@@ -21,7 +21,7 @@ function mapCoordToPixel(latitude, longitude) {
 //console.log(chicago);
 
 function verticalCenter($div) {
-	console.log("repositioning");
+	//console.log("repositioning");
 	var height = $div.parent().height() - $div.height();
 	$div.css('top', (Math.max(60,height)) / 2);
 }
@@ -36,7 +36,7 @@ function startStream(query, callback) {
 
 $(document).ready(function() {
 	startStream('iHeartRadio', function(data) {
-		console.log(data);
+		//console.log(data);
 		//code to spawn dots goes here.
 		spawnPoint(data);
 		addCard(data);
@@ -67,7 +67,7 @@ $(document).ready(function() {
 	$(window).scroll(arrowControl);
 		
 
-	var dotsToPlot = 
+	/*var dotsToPlot = 
 	[[41.764391, -87.784413, 1],
 	[40.762193, -73.588426, -1],
 	[37.128000, -121.956873, 1],
@@ -119,7 +119,7 @@ $(document).ready(function() {
 		.attr("mask", "url(#dotmask)")
 		.transition()
 			.attr("opacity", ".5")
-			.duration(2000);
+			.duration(2000);*/
 });
 
 function arrowControl() {
@@ -190,14 +190,14 @@ function spawnPoint(datapoint) {
 			return "translate(" + coord.x + "," + coord.y + ")";
 		});
 
-	/*var glow = point.append("circle")
+	var glow = point.append("circle")
 		.attr("fill", "rgba(0,0,0,0)")
 		.attr("stroke", function(d) {
 			var color = scoreToRGB(d.score);
 			return "rgb(" + color.r + "," + color.g + "," + color.b + ")";
 		})
-		.attr("r", "10")
-		.attr("stroke-opacity", "1");*/
+		.attr("r", "15")
+		.attr("stroke-opacity", "1");
 	/*glow.append("animate")
 		.attr("attributeType", "XML")
 		.attr("attributeName", "r")
@@ -213,14 +213,14 @@ function spawnPoint(datapoint) {
 		.attr("dur", "1s")
 		.attr("fill", "freeze");*/
 
-	/*var enlarge = glow.transition()
-		.attr("r", "15")
+	var enlarge = glow.transition()
+		.attr("r", "20")
 		.ease("linear")
 		.duration(250);
 		
 	
 	enlarge.transition()
-		.attr("stroke-opacity", "0");*/
+		.attr("stroke-opacity", "0");
 
 
 	var dot = point.append("circle")
