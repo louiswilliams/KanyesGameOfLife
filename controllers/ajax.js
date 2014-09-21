@@ -5,7 +5,7 @@ var User = require('../models/User')
 var _ = require('lodash');
 var sentiment = require('sentiment');
 
-exports.stream = function(socket, query) {
+exports.stream = function(socket, msg) {
 
             var T = new Twit({
                consumer_key: secrets.twitter.consumerKey,
@@ -13,14 +13,16 @@ exports.stream = function(socket, query) {
                access_token: "391188422-TGrNHdpWElJrzqELkpXJBQhe8EK2KIUuO5ojh4CG",
                access_token_secret: "SMOTGnAixh2kf8R4V5SkEdJwJjG95EuDWUYnaVs0LOR3C",
             });
-
+            var usBox = ['-124.13', '48.0', '-69.90', '30.1'];
             var stream = T.stream('statuses/filter', {
-                track: socket.query,
-                locations: '-180,-90,180,90'
+                track: msg.query,
+                language: "en"
             });
 
             stream.on('tweet', function(tweet) {
-                socket.emit('twitterStream', tweet);
+                if (tweet.geo) {
+                    socket.emit('twitterStream', tweet);                
+                }
             });
 
 };
