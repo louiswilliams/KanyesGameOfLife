@@ -8,12 +8,12 @@ function mapCoordToPixel(latitude, longitude) {
     }
 
 	//pixels per degree longitude
-    xscale = $("#map").width()/58.238583;
+    xscale = $("#map").width() / 59;
     //pixels per degree latitude
-    yscale = $("#map").height()/27;
+    yscale = $("#map").height() / 26.5;	
     return {
-        x: parseInt(xscale * (longitude - origin.longitude)),
-        y: parseInt(yscale * (origin.latitude - latitude))
+        x: parseInt(xscale * (longitude - origin.longitude) ),
+        y: parseInt(yscale * (origin.latitude - latitude) + 23	)
     }
 }
 
@@ -48,10 +48,10 @@ $(document).ready(function() {
 	$map = $("#map");
 	$map.load(function() {
 		verticalCenter(this);
-	})
+	});
 	//resize map properly
-	$map.width(window.innerWidth - 350);
-	$map.css("background-size", $map.width() + "px")
+	// $map.width(window.innerWidth - 350);
+	// $map.css("background-size", $map.width() + "px")
 
 
 	//document.getElementById("canvas").removeAttribute("width");
