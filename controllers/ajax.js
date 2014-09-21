@@ -2,6 +2,7 @@ var secrets = require('../config/secrets');
 var randomWords = require('random-words')
 var Twit = require('twit');
 var _ = require('lodash');
+var sentiment = require('sentiment');
 
 exports.stream = function(socket) {
 
@@ -30,6 +31,17 @@ exports.stream = function(socket) {
     // }
 };
 
+function textToScore(text) {
+    result1 = sentiment(text);
+    //console.log(result1);
+
+    score = result1.score / 10;
+
+    if (score > 1) score = 1;
+    if (score < -1) score = -1;
+    return score;
+}
+
 function sendTestData(socket) {
     message = "";
     for (var i=0; i<16; i++) {
@@ -39,9 +51,11 @@ function sendTestData(socket) {
         }
     }
     message += ".";
+    score = textToScore(message);
     socket.emit('twitterStream', {
         y: Math.random() * 635,
         x: Math.random() * 1225,
-        message:  message
+        message:  message,
+        score: score
     });
  }
