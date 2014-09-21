@@ -44,7 +44,7 @@ exports.stream = function(socket, msg) {
                         maxId = tweet.id - 1;
                     }
                     //maxId = data.search_metadata.max_id;
-                    console.log(maxId);
+                    //console.log(maxId);
                     getTweets(++counter);
                 });
             }

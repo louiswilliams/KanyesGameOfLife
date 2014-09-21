@@ -174,6 +174,8 @@ function spawnPoint(datapoint) {
 	var datapointArray = [];
 	datapointArray.push(datapoint);
 
+
+
 	var point = d3.select("#canvas")
 		.append("g")
 		.data(datapointArray)
@@ -225,9 +227,9 @@ function spawnPoint(datapoint) {
 		.attr("class", "dot")
 		.attr("opacity", "1")
 		.attr("fill", function(d) {
-			//var color = scoreToRGB(d.score);
-			//return "rgb(" + color.r + "," + color.g + "," + color.b + ")";
-			return "#FF0000";
+			var color = scoreToRGB(d.score);
+			return "rgb(" + color.r + "," + color.g + "," + color.b + ")";
+			//return "#FF0000";
 		})
 		.attr("r", "15")
 		.attr("mask", "url(#dotmask)")
@@ -240,11 +242,11 @@ function spawnPoint(datapoint) {
 function scoreToRGB(score) {
 	var red = 255, green = 255, blue = 0;
 	
-	/*if (score <= 0) {
+	if (score <= 0) {
 		green += 255 * score;
 	} else if (score > 0) {
 		red -= 255 * score;
-	}*/
+	}
 
 	/*var green = 0;
 	var red = 0;
@@ -258,7 +260,7 @@ function scoreToRGB(score) {
 		red = 255-blue;
 	}*/
 
-	if(score >= 0) {
+	/*if(score >= 0) {
 		red = 255;
 		green = 255 - (255*score);
 		blue = 255 - (255*score);
@@ -266,7 +268,7 @@ function scoreToRGB(score) {
 		blue = 255;
 		red = 255*score;
 		green = 255*score;
-	}
+	}*/
 	
 
 	return {
